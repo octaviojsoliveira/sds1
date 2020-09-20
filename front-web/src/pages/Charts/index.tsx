@@ -21,31 +21,29 @@ const initialPieData = {
     series: []
 }
 
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = 'https://sds1-octavio.herokuapp.com';
 
 const Charts = () => {
     const [barChartData, setBarChartData] = useState<BarChartData[]>([]);
     const [platformData, setPlatformData] = useState<PieChartData>(initialPieData);
     const [genderData, setGenderData] = useState<PieChartData>(initialPieData);
 
-    useEffect(() => {
-        async function getData() {
-            const recordsResponse = await axios.get(`${BASE_URL}/records`);
-            const gamesResponse = await axios.get(`${BASE_URL}/games`);
+useEffect(() => {
+    async function getData(){
+        const recordsResponse = await axios.get(`${BASE_URL}/records`);
+        const gamesResponse = await axios.get(`${BASE_URL}/games`);
 
-            const barData = buildBarSeries(gamesResponse.data, recordsResponse.data.content);
-            setBarChartData(barData);
+        const barData = buildBarSeries(gamesResponse.data, recordsResponse.data.content);
+        setBarChartData(barData);    
 
-            const PlatformChartData = getPlatformChartData(recordsResponse.data.content);
-            setPlatformData(PlatformChartData);
+        const PlatformChartData = getPlatformChartData(recordsResponse.data.content);
+        setPlatformData(PlatformChartData);
 
-            const genderChartData = getGenderChartData(recordsResponse.data.content);
-            setGenderData(genderChartData);
-        }
-
-        getData();
-    }, [])
-
+        const GenderChartData = getGenderChartData(recordsResponse.data.content);
+        setGenderData(GenderChartData);
+    }
+    getData();
+},[])
 
     return(
         <div className="page-container">
